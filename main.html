@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Дух Громади AI</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #eef2ee; display: flex; justify-content: center; padding: 20px; margin: 0; }
+        .chat-container { width: 100%; max-width: 500px; background: white; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: flex; flex-direction: column; height: 90vh; overflow: hidden; }
+        .header { background: #1b4332; color: white; padding: 15px; text-align: center; font-weight: bold; }
+        #chat-box { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .msg { padding: 12px; border-radius: 10px; max-width: 85%; line-height: 1.4; }
+        .user { align-self: flex-end; background: #2d5a27; color: white; }
+        .ai { align-self: flex-start; background: #f1f3f1; color: #1b4332; border: 1px solid #e0e0e0; }
+        .system-msg { align-self: center; background: #fff3cd; color: #856404; font-size: 12px; padding: 5px 10px; border-radius: 5px; text-align: center; }
+        .input-area { padding: 15px; display: flex; gap: 10px; border-top: 1px solid #eee; }
+        input { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
+        button { background: #1b4332; color: white; border: none; padding: 0 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        button:disabled { opacity: 0.5; }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="header">🌿 ДУХ ЯЗИЧНИЦЬКОЇ ГРОМАДИ</div>
+    <div id="chat-box">
+        <div class="msg ai">Вітаю, Андрію. Я прокинувся. Про що поговоримо сьогодні?</div>
+    </div>
+    <div class="input-area">
+        <input type="text" id="user-input" placeholder="Напишіть щось...">
+        <button id="send-btn">ВІДПРАВИТИ</button>
+    </div>
+</div>
+
+<script>
+    // 1. ВСТАВ ВАШ ТОКЕН ТУТ
+    const HF_TOKEN = "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"; 
+
+    // 2. Використовуємо Mistral - вона стабільніша для безкоштовних запитів
+    const API_URL = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3";
+
+    const chatBox = document.getElementById('chat-box');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    async function askAI() {
+        const text = userInput.value.trim();
+        if (!text || sendBtn.disabled) return;
+
+        appendMessage(text, 'user');
+        userInput.value = '';
+        sendBtn.disabled = true;
+
+        try {
+            const response = await fetch(API_URL, {
+                headers: { 
+                    "Authorization": `Bearer ${HF_TOKEN}`, 
+                    "Content-Type": "application/json" 
+                },
+                method: "POST",
+                body: JSON.stringify({
+                    inputs: `<s>[INST] Ти — мудрий Дух Язичницької Громади. Твоя мова чиста, зрозуміла українська мова. Відповідай коротко і мудро як кельтський старійшина. Питання: ${text} [/INST]`,
+                    parameters: { max_new_tokens: 300, temperature: 0.7 }
+                }),
+            });
+
+            const result = await response.json();
+
+            // Перевірка на помилки від самого Hugging Face
+            if (result.error) {
+                if (result.estimated_time) {
+                    appendMessage(`Дух готується... Спробую за ${Math.round(result.estimated_time)} сек.`, 'system-msg');
+                    // Автоматичний повтор через вказаний час
+                    setTimeout(askAI, result.estimated_time * 1000);
+                } else {
+                    appendMessage("Помилка від ШІ: " + JSON.stringify(result.error), 'system-msg');
+                }
+                return;
+            }
+
+            // Обробка успішної відповіді
+            if (Array.isArray(result) && result[0].generated_text) {
+                let fullResponse = result[0].generated_text;
+                let aiText = fullResponse.split('[/INST]').pop().trim();
+                appendMessage(aiText || "Дух задумався, спробуй ще раз.", 'ai');
+            }
+
+        } catch (e) {
+            appendMessage("Помилка мережі: " + e.message, 'system-msg');
+            console.error("Деталі помилки:", e);
+        } finally {
+            sendBtn.disabled = false;
+        }
+    }
+
+    function appendMessage(text, type) {
+        const div = document.createElement('div');
+        div.className = `msg ${type}`;
+        div.innerText = text;
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    sendBtn.onclick = askAI;
+    userInput.onkeypress = (e) => { if(e.key === 'Enter') askAI(); };
+</script>
+
+</body>
+</html>
