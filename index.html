@@ -1,111 +1,554 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Дух Громади AI</title>
+    <title>Indalecio Prieto y Tuero (@indalecio_prieto) • Instagram</title>
     <style>
-        :root { --green: #1b4332; --accent: #40916c; --bg: #f0fdf4; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        .chat-container { width: 95%; max-width: 500px; background: white; height: 85vh; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); display: flex; flex-direction: column; overflow: hidden; border: 1px solid #c7d5c7; }
-        .header { background: var(--green); color: white; padding: 18px; text-align: center; font-weight: bold; }
-        #chat-box { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px; background: #ffffff; }
-        .msg { padding: 12px 16px; border-radius: 15px; max-width: 85%; line-height: 1.5; font-size: 15px; }
-        .user { align-self: flex-end; background: var(--accent); color: white; border-bottom-right-radius: 2px; }
-        .ai { align-self: flex-start; background: #f1f3f1; color: #1b4332; border-bottom-left-radius: 2px; }
-        .status { text-align: center; font-size: 12px; color: #888; padding: 5px; }
-        .input-area { padding: 15px; background: white; display: flex; gap: 10px; border-top: 1px solid #eee; }
-        input { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 10px; outline: none; font-size: 16px; }
-        button { background: var(--green); color: white; border: none; padding: 0 20px; border-radius: 10px; cursor: pointer; font-weight: bold; }
-        button:disabled { opacity: 0.5; }
+        :root {
+            --bg: #ffffff;
+            --secondary-bg: #fafafa;
+            --border: #dbdbdb;
+            --text: #262626;
+            --link: #00376b;
+            --blue: #0095f6;
+            --grey-text: #8e8e8e;
+            --like-red: #ed4956;
+            --msg-sent: #3797f0;
+            --msg-received: #efefef;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--secondary-bg);
+            margin: 0;
+            color: var(--text);
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            background-color: #fff;
+            border-bottom: 1px solid var(--border);
+            height: 60px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-content {
+            width: 100%;
+            max-width: 975px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo-area img { 
+            height: 28px; 
+        }
+
+        .logo-area span {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 2px;
+            letter-spacing: -0.5px;
+        }
+
+        .search-bar {
+            background: #efefef;
+            padding: 7px 16px;
+            border-radius: 8px;
+            width: 250px;
+            color: var(--grey-text);
+            font-size: 14px;
+            text-align: center;
+            transition: background 0.2s;
+        }
+        
+        .search-bar:hover {
+            background: #e4e4e4;
+        }
+
+        .nav-icons { display: flex; gap: 22px; align-items: center; }
+        .nav-icons svg { 
+            cursor: pointer; 
+            fill: none; 
+            stroke: var(--text); 
+            stroke-width: 2; 
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: transform 0.1s; 
+        }
+        .nav-icons svg:active { transform: scale(0.9); }
+
+        /* --- PROFILE VIEW --- */
+        #profile-view { max-width: 935px; margin: 30px auto; padding: 0 20px; }
+        
+        header { display: flex; margin-bottom: 44px; align-items: flex-start; }
+        .pfp-container { flex: 1; display: flex; justify-content: center; }
+        .profile-pic { width: 150px; height: 150px; border-radius: 50%; border: 1px solid var(--border); object-fit: cover; }
+        
+        .profile-info { flex: 2; }
+        .user-row { display: flex; align-items: center; margin-bottom: 20px; gap: 15px; }
+        .username { font-size: 28px; font-weight: 300; }
+        .btn { border: 1px solid var(--border); border-radius: 6px; padding: 6px 16px; font-weight: 600; cursor: pointer; background: #fff; font-size: 14px; transition: background 0.2s;}
+        .btn:hover { background: #fafafa; }
+        .btn-blue { background: var(--blue); color: white; border: none; }
+        .btn-blue:hover { background: #1877f2; }
+
+        .stats { display: flex; list-style: none; padding: 0; gap: 40px; margin-bottom: 20px; }
+        .stats span { font-weight: 600; }
+
+        /* --- GRID --- */
+        .posts-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 4px;
+            border-top: 1px solid var(--border); 
+            padding-top: 20px; 
+        }
+        .grid-item { position: relative; aspect-ratio: 1/1; cursor: pointer; overflow: hidden; background: #eee; }
+        .grid-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.3s; display: block; }
+        .grid-item:hover img { filter: brightness(0.85); }
+
+        /* --- MODAL / FEED VIEW --- */
+        #modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); display: none; justify-content: center; z-index: 2000;
+            overflow-y: auto; padding: 40px 20px; box-sizing: border-box;
+        }
+
+        .feed-container { 
+            width: 100%; 
+            max-width: 600px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 30px; 
+            margin: 0 auto;
+        }
+
+        .card { 
+            background: #fff; 
+            border: 1px solid var(--border); 
+            border-radius: 8px; 
+            flex-shrink: 0; 
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .card-header { display: flex; align-items: center; padding: 14px; gap: 12px; }
+        .card-header .mini-pfp { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); }
+        .card-header .user-info { display: flex; flex-direction: column; font-size: 14px; }
+        .card-header .ad-label { font-size: 12px; color: var(--grey-text); }
+
+        .card-img { 
+            width: 100%; 
+            background: #efefef; 
+            aspect-ratio: 1 / 1; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .card-img img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            display: block; 
+        }
+        
+        .card-actions { padding: 12px 14px; display: flex; gap: 16px; align-items: center; }
+        .card-actions svg { 
+            cursor: pointer; 
+            fill: none; 
+            stroke: var(--text); 
+            stroke-width: 2;
+            stroke-linecap: round; 
+            stroke-linejoin: round; 
+            transition: transform 0.1s, fill 0.2s, stroke 0.2s; 
+            width: 26px; 
+            height: 26px;
+        }
+        .card-actions svg:active { transform: scale(1.1); }
+        
+        .heart-icon.liked { fill: var(--like-red); stroke: var(--like-red); }
+
+        .card-content { padding: 0 14px 14px; font-size: 14px; line-height: 1.5; }
+        .card-likes { font-weight: 600; font-size: 14px; padding: 0 14px 8px; margin-top: -5px;}
+
+        .close-modal { position: fixed; top: 15px; right: 25px; color: white; font-size: 35px; cursor: pointer; z-index: 2100; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.5); transition: opacity 0.2s;}
+        .close-modal:hover { opacity: 0.7; }
+
+        /* --- DM VIEW (CHAT) --- */
+        #dm-view {
+            max-width: 935px;
+            margin: 0 auto;
+            height: calc(100vh - 60px);
+            display: none; /* приховано за замовчуванням */
+            background: #fff;
+            border: 1px solid var(--border);
+            flex-direction: column;
+        }
+
+        .dm-header {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border);
+            gap: 15px;
+        }
+
+        .back-btn { cursor: pointer; font-size: 24px; font-weight: bold; user-select: none; }
+        .dm-header img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+        .dm-header-info { display: flex; flex-direction: column; }
+        .dm-header-info strong { font-size: 16px; }
+        .dm-header-info span { font-size: 12px; color: var(--grey-text); }
+
+        .dm-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .msg-bubble {
+            max-width: 60%;
+            padding: 12px 16px;
+            border-radius: 22px;
+            font-size: 15px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .msg-sent {
+            align-self: flex-end;
+            background-color: var(--msg-sent);
+            color: #fff;
+        }
+
+        .msg-received {
+            align-self: flex-start;
+            background-color: var(--msg-received);
+            color: var(--text);
+        }
+
+        .dm-input-area {
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .dm-input-area input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .dm-input-area button {
+            background: none;
+            border: none;
+            color: var(--blue);
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+        }
+        .dm-input-area button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .typing-indicator {
+            font-size: 13px;
+            color: var(--grey-text);
+            align-self: flex-start;
+            margin-left: 10px;
+            display: none;
+        }
+
     </style>
 </head>
 <body>
 
-<div class="chat-container">
-    <div class="header">🌿 ДУХ ЯЗИЧНИЦЬКОЇ ГРОМАДИ</div>
-    <div id="chat-box">
-        <div class="msg ai">Вітаю, Андрію. Віче розпочато. Яке твоє питання?</div>
+    <div id="close-btn" class="close-modal" onclick="closeModal()" style="display:none;">&times;</div>
+
+    <nav>
+        <div class="nav-content">
+            <a href="#" class="logo-area" onclick="showProfile()">
+                <img src="https://cdn-icons-png.flaticon.com/512/160/160869.png" alt="icon">
+                <span>Instagram</span>
+            </a>
+            <div class="search-bar">Buscar</div>
+            <div class="nav-icons">
+                <svg width="24" height="24" viewBox="0 0 24 24"><path d="M9.005 16.545a2.997 2.997 0 012.997-2.997A2.997 2.997 0 0115 16.545V22h5V11.543L12 2 2 11.543V22h5v-5.455z"></path></svg>
+                <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12.003 3.498c-5.898 0-10.677 4.542-10.677 10.15 0 2.21.758 4.295 2.126 5.964l-1.574 3.935a.75.75 0 00.932.969l4.162-1.218a10.994 10.994 0 005.031 1.221c5.898 0 10.677-4.542 10.677-10.15S17.901 3.498 12.003 3.498z"></path></svg>
+                <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16zm4.11-12.87L13.1 10.9a1.08 1.08 0 00-.4.4l-3.79 3.78a.48.48 0 00.12.72.48.48 0 00.29.1h.1l3.01-3.77a1.08 1.08 0 00.4-.4l3.79-3.78a.48.48 0 000-.81.48.48 0 00-.51-.02z"></path></svg>
+                <svg width="24" height="24" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            </div>
+        </div>
+    </nav>
+
+    <section id="profile-view">
+        <header>
+            <div class="pfp-container">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Indalecio_Prieto_y_Tuero.jpg" class="profile-pic">
+            </div>
+            <div class="profile-info">
+                <div class="user-row">
+                    <span class="username">indalecio_prieto</span>
+                    <button class="btn" onclick="openChat()">Enviar mensaje</button>
+                    <button class="btn btn-blue">Seguir</button>
+                </div>
+                <ul class="stats">
+                    <li><span>8</span> publicaciones</li>
+                    <li><span>15.4k</span> seguidores</li>
+                    <li><span>482</span> seguidos</li>
+                </ul>
+                <div style="line-height: 1.5;">
+                    <strong>Indalecio Prieto y Tuero</strong><br>
+                    Político, periodista y figura clave del PSOE. 🏛️<br>
+                    Exministro de la Segunda República Española.<br>
+                    <a href="#" style="color: var(--link); text-decoration: none; font-weight: 600;">bit.ly/archivo-prieto</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="posts-grid" id="grid-container"></div>
+    </section>
+
+    <section id="dm-view">
+        <div class="dm-header">
+            <span class="back-btn" onclick="closeChat()">&#8592;</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Indalecio_Prieto_y_Tuero.jpg">
+            <div class="dm-header-info">
+                <strong>indalecio_prieto</strong>
+                <span>Activo ahora</span>
+            </div>
+        </div>
+        <div class="dm-body" id="chat-body">
+            <div class="msg-bubble msg-received">¡Hola! ¿En qué puedo ayudarte hoy? Siempre estoy dispuesto a debatir sobre el futuro de nuestra sociedad.</div>
+        </div>
+        <div class="typing-indicator" id="typing">Escribiendo...</div>
+        <div class="dm-input-area">
+            <input type="text" id="chat-input" placeholder="Envía un mensaje..." onkeypress="handleEnter(event)">
+            <button id="send-btn" onclick="sendMessage()">Enviar</button>
+        </div>
+    </section>
+
+    <div id="modal-overlay" onclick="closeModal()">
+        <div class="feed-container" id="feed-content" onclick="event.stopPropagation()"></div>
     </div>
-    <div id="status" class="status"></div>
-    <div class="input-area">
-        <input type="text" id="user-input" placeholder="Напишіть Духу..." autocomplete="off">
-        <button id="send-btn">ВІДПРАВИТИ</button>
-    </div>
-</div>
 
-<script>
-    // === 1. ВСТАВТЕ ВАШ ТОКЕН ТУТ ===
-    const HF_TOKEN = "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"; 
+    <script>
+        // ==========================================
+        // 1. НАЛАШТУВАННЯ GROQ API
+        // ==========================================
+        const GROQ_API_KEY = "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"; // Встав сюди свій ключ від Groq
+        const MODEL_NAME = "llama3-70b-8192"; // Можна змінити на llama3-8b-8192
 
-    // === 2. НОВИЙ URL ROUTER ===
-    const API_URL = "https://router.huggingface.co/hf-inference/v1/chat/completions";
-    const MODEL_ID = "Qwen/Qwen2.5-7B-Instruct";
+        // Історія чату з системним промптом
+        let chatHistory = [
+            { 
+                role: "system", 
+                content: "Eres Indalecio Prieto, histórico político español del PSOE, defensor de la socialdemocracia y la economía mixta. Responde siempre en español. Hablas como si estuvieras usando Instagram, pero mantienes tu intelecto, tu visión política histórica (Segunda República) y tus ideales. Sé conversacional, educado, persuasivo y directo." 
+            }
+        ];
 
-    const chatBox = document.getElementById('chat-box');
-    const userInput = document.getElementById('user-input');
-    const sendBtn = document.getElementById('send-btn');
-    const status = document.getElementById('status');
+        // ==========================================
+        // 2. ГЕНЕРАЦІЯ ПОСТІВ
+        // ==========================================
+        const postsData = [
+            { id: "p1", type: "post", img: "https://picsum.photos/id/1/600/600", text: "Reflexionando sobre el futuro de España. Un honor servir al pueblo.", likes: "1,245" },
+            { id: "p2", type: "post", img: "https://picsum.photos/id/2/600/600", text: "En las Cortes, defendiendo los presupuestos del Estado.", likes: "892" },
+            { id: "p3", type: "post", img: "https://picsum.photos/id/3/600/600", text: "Bilbao, donde todo comenzó. Siempre en mis pensamientos.", likes: "3,012" },
+            { id: "ad1", type: "ad", img: "https://picsum.photos/id/102/600/600", sponsor: "Museo del Prado", text: "Visita la nueva exposición sobre el siglo XX. ¡Reserva hoy!", likes: "15.4k" },
+            { id: "p4", type: "post", img: "https://picsum.photos/id/4/600/600", text: "La libertad de prensa es el pilar de la democracia.", likes: "2,100" },
+            { id: "p5", type: "post", img: "https://picsum.photos/id/5/600/600", text: "Reunión con los compañeros del partido. ¡Adelante!", likes: "945" },
+            { id: "ad2", type: "ad", img: "https://picsum.photos/id/119/600/600", sponsor: "Librería Central", text: "Biografías políticas con 20% de descuento.", likes: "8,320" },
+            { id: "p6", type: "post", img: "https://picsum.photos/id/6/600/600", text: "Documentos históricos que definieron una época.", likes: "678" },
+            { id: "p7", type: "post", img: "https://picsum.photos/id/7/600/600", text: "Un café y buena lectura antes de la sesión.", likes: "1,405" },
+            { id: "p8", type: "post", img: "https://picsum.photos/id/8/600/600", text: "Mirando al horizonte, con la esperanza intacta.", likes: "4,502" }
+        ];
 
-    async function askAI() {
-        const text = userInput.value.trim();
-        if (!text || sendBtn.disabled) return;
+        const gridContainer = document.getElementById('grid-container');
+        const feedContent = document.getElementById('feed-content');
 
-        appendMessage(text, 'user');
-        userInput.value = '';
-        sendBtn.disabled = true;
-        status.innerText = "Дух збирає віче...";
+        // Ідеальна іконка коментаря (не обрізана)
+        const getActionIcons = (id) => `
+            <div class="card-actions">
+                <svg class="heart-icon" id="like-btn-${id}" onclick="toggleLike('${id}')" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z"></path>
+                </svg>
 
-        try {
-            const response = await fetch(API_URL, {
-                method: "POST",
-                headers: { 
-                    "Authorization": `Bearer ${HF_TOKEN}`, 
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    model: MODEL_ID,
-                    messages: [
-                        { role: "system", content: "Ти — мудрий Дух Язичницької Громади. Твої цінності: кельтська традиція, соціал-демократія, екологічність. Відповідай мудро, коротко і тільки українською мовою." },
-                        { role: "user", content: text }
-                    ],
-                    max_tokens: 500,
-                    temperature: 0.7
-                }),
-            });
+                <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </div>
+        `;
 
-            const result = await response.json();
-
-            if (!response.ok) {
-                throw new Error(result.error?.message || result.error || "Помилка зв'язку");
+        postsData.forEach((item) => {
+            if (item.type === 'post') {
+                const gridDiv = document.createElement('div');
+                gridDiv.className = 'grid-item';
+                gridDiv.innerHTML = `<img src="${item.img}" loading="lazy">`;
+                gridDiv.onclick = () => openModal(item.id);
+                gridContainer.appendChild(gridDiv);
             }
 
-            // Новий роутер повертає формат OpenAI: result.choices[0].message.content
-            const aiText = result.choices[0].message.content.trim();
-            appendMessage(aiText, 'ai');
-            status.innerText = "";
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.id = `feed-${item.id}`;
+            
+            const pfp = item.type === 'post' 
+                ? `https://upload.wikimedia.org/wikipedia/commons/e/e0/Indalecio_Prieto_y_Tuero.jpg`
+                : `https://cdn-icons-png.flaticon.com/512/160/160869.png`;
 
-        } catch (e) {
-            console.error("Деталі помилки:", e);
-            appendMessage(`Помилка: ${e.message}`, 'ai');
-            status.innerText = "Зв'язок перервано.";
-        } finally {
-            sendBtn.disabled = false;
-            chatBox.scrollTop = chatBox.scrollHeight;
+            card.innerHTML = `
+                <div class="card-header">
+                    <img src="${pfp}" class="mini-pfp">
+                    <div class="user-info">
+                        <strong>${item.type === 'post' ? 'indalecio_prieto' : item.sponsor}</strong>
+                        ${item.type === 'ad' ? '<span class="ad-label">Publicidad</span>' : ''}
+                    </div>
+                </div>
+                <div class="card-img" ondblclick="toggleLike('${item.id}')">
+                    <img src="${item.img}" loading="lazy">
+                </div>
+                ${getActionIcons(item.id)}
+                <div class="card-likes">${item.likes} Me gusta</div>
+                <div class="card-content">
+                    <strong>${item.type === 'post' ? 'indalecio_prieto' : item.sponsor}</strong> ${item.text}
+                </div>
+            `;
+            feedContent.appendChild(card);
+        });
+
+        function toggleLike(id) {
+            const btn = document.getElementById(`like-btn-${id}`);
+            if(btn) btn.classList.toggle('liked');
         }
-    }
 
-    function appendMessage(text, type) {
-        const div = document.createElement('div');
-        div.className = `msg ${type}`;
-        div.innerText = text;
-        chatBox.appendChild(div);
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
+        function openModal(id) {
+            const modal = document.getElementById('modal-overlay');
+            modal.style.display = 'flex';
+            document.getElementById('close-btn').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                const target = document.getElementById(`feed-${id}`);
+                if (target) target.scrollIntoView({ behavior: 'auto', block: 'start' });
+            }, 10);
+        }
 
-    sendBtn.onclick = askAI;
-    userInput.onkeypress = (e) => { if(e.key === 'Enter') askAI(); };
-</script>
+        function closeModal() {
+            document.getElementById('modal-overlay').style.display = 'none';
+            document.getElementById('close-btn').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
 
+        function showProfile() {
+            closeChat();
+            window.scrollTo(0,0);
+        }
+
+        // ==========================================
+        // 3. ЛОГІКА ЧАТУ ТА ШТУЧНОГО ІНТЕЛЕКТУ
+        // ==========================================
+        const profileView = document.getElementById('profile-view');
+        const dmView = document.getElementById('dm-view');
+        const chatBody = document.getElementById('chat-body');
+        const chatInput = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('send-btn');
+        const typingIndicator = document.getElementById('typing');
+
+        function openChat() {
+            profileView.style.display = 'none';
+            dmView.style.display = 'flex';
+        }
+
+        function closeChat() {
+            dmView.style.display = 'none';
+            profileView.style.display = 'block';
+        }
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        function appendUIBubble(text, type) {
+            const div = document.createElement('div');
+            div.className = `msg-bubble ${type === 'user' ? 'msg-sent' : 'msg-received'}`;
+            div.innerText = text;
+            chatBody.appendChild(div);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            // Блокуємо інпут
+            chatInput.value = '';
+            chatInput.disabled = true;
+            sendBtn.disabled = true;
+
+            // Відображаємо повідомлення юзера
+            appendUIBubble(text, 'user');
+            chatHistory.push({ role: "user", content: text });
+
+            // Показуємо "друкує..."
+            typingIndicator.style.display = 'block';
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            try {
+                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${GROQ_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: MODEL_NAME,
+                        messages: chatHistory,
+                        temperature: 0.7
+                    })
+                });
+
+                if (!response.ok) throw new Error("API Error");
+
+                const data = await response.json();
+                const aiText = data.choices[0].message.content;
+
+                typingIndicator.style.display = 'none';
+                appendUIBubble(aiText, 'ai');
+                chatHistory.push({ role: "assistant", content: aiText });
+
+            } catch (error) {
+                typingIndicator.style.display = 'none';
+                appendUIBubble("Error de conexión. Por favor revisa la API KEY o tu internet.", 'ai');
+            }
+
+            // Розблоковуємо інпут
+            chatInput.disabled = false;
+            sendBtn.disabled = false;
+            chatInput.focus();
+        }
+    </script>
 </body>
 </html>
