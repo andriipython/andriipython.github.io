@@ -317,8 +317,8 @@
                     <button class="btn btn-blue">Seguir</button>
                 </div>
                 <ul class="stats">
-                    <li><span>8</span> publicaciones</li>
-                    <li><span>15.4k</span> seguidores</li>
+                    <li><span>6</span> publicaciones</li>
+                    <li><span>624k</span> seguidores</li>
                     <li><span>482</span> seguidos</li>
                 </ul>
                 <div style="line-height: 1.5;">
@@ -375,16 +375,16 @@
         // 2. ГЕНЕРАЦІЯ ПОСТІВ
         // ==========================================
         const postsData = [
-            { id: "p1", type: "post", img: "https://picsum.photos/id/1/600/600", text: "Reflexionando sobre el futuro de España. Un honor servir al pueblo.", likes: "1,245" },
-            { id: "p2", type: "post", img: "https://picsum.photos/id/2/600/600", text: "En las Cortes, defendiendo los presupuestos del Estado.", likes: "892" },
-            { id: "p3", type: "post", img: "https://picsum.photos/id/3/600/600", text: "Bilbao, donde todo comenzó. Siempre en mis pensamientos.", likes: "3,012" },
-            { id: "ad1", type: "ad", img: "https://picsum.photos/id/102/600/600", sponsor: "Museo del Prado", text: "Visita la nueva exposición sobre el siglo XX. ¡Reserva hoy!", likes: "15.4k" },
-            { id: "p4", type: "post", img: "https://picsum.photos/id/4/600/600", text: "La libertad de prensa es el pilar de la democracia.", likes: "2,100" },
-            { id: "p5", type: "post", img: "https://picsum.photos/id/5/600/600", text: "Reunión con los compañeros del partido. ¡Adelante!", likes: "945" },
-            { id: "ad2", type: "ad", img: "https://picsum.photos/id/119/600/600", sponsor: "Librería Central", text: "Biografías políticas con 20% de descuento.", likes: "8,320" },
-            { id: "p6", type: "post", img: "https://asambleadigital.es/wp-content/uploads/2024/06/Grupo-gentes-hambrientas.jpg", text: "Esto no es una guerra civil ordinaria... ¡ES UN GENOCIDIO! 🩸💔 Están asfixiando nuestras ciudades, bloqueando nuestros suministros y matando a nuestros niños de inanición solo para quebrar nuestra voluntad. Quieren una España de rodillas, muerta de hambre y miedo.", likes: "678" },
-            { id: "p7", type: "post", img: "https://www.oldskull.net/wp-content/uploads/2019/07/PSOE.jpg", text: "¡Camaradas! No podemos cerrar los ojos ante el veneno que intenta infectar nuestra democracia. El falangismo no es política, ¡es el culto a la violencia y el odio! 🐍🚫", likes: "120,137" },
-            { id: "p8", type: "post", img: "https://i.ibb.co/k2wK4sV7/wmremove-transformed-2.jpg", text: "¡España necesita una Economía Mixta! ⚖️", likes: "45,024" }
+            { id: "p1", type: "post", img: "https://fotografias.larazon.es/clipping/cmsimages01/2019/08/06/E16F4661-75DC-40BA-92D6-416BF1037D76/default.jpg", text: "Nos han doblegado por la fuerza de las armas, pero jamás podrán fusilar nuestras ideas. Llegará el día, os lo aseguro, en que el sol volverá a brillar sobre una España libre. ☀️🇪🇸 Llegará el día en que, por las calles de Madrid, ya no se verá a nadie levantar la mano al cielo con ese gesto de odio y soberbia que hoy imponen. 🚫✋", likes: "145k" },
+            { id: "p2", type: "post", img: "https://rutaskilometro0.com/wp-content/uploads/2018/04/EXPOSICI%C3%93N-NO-PASAR%C3%81N-600x827.jpg", text: "¡No pasarán!", likes: "892k" },
+            { id: "p3", type: "post", img: "https://upload.wikimedia.org/wikipedia/commons/2/2b/Portada_La_Traca_-_16_de_setembre_del_1937.jpg", text: "😂", likes: "334k" },
+            { id: "ad1", type: "ad", img: "https://pbs.twimg.com/media/CVVoNLaWcAAk89p.png", sponsor: "PSOE", text: "¡Vota PSOE!", likes: "15.4k" },
+            { id: "p4", type: "post", img: "https://fsa-psoe.org/wp-content/uploads/2018/09/Portada-de-El-Socialista-12-3-1886.jpg", text: "La libertad de prensa es el pilar de la democracia.", likes: "24k" },
+            { id: "p5", type: "post", img: "https://muyinteresante.okdiario.com/wp-content/uploads/sites/5/2024/08/27/66cda7260ff2b.png", text: "¡Honor y gloria a los valientes soldados de la República! 🚩🛡️ Mientras los traidores y facciosos intentan vender nuestra patria al fascismo extranjero, el pueblo en armas se levanta como un gigante. No son solo soldados, son obreros, campesinos e intelectuales unidos por un solo ideal: ¡UNA ESPAÑA LIBRE! 🏛️ Cada trinchera defendida, cada bala disparada contra el falangismo, es un paso más hacia la justicia social y el fin de la tiranía.", likes: "176k" },
+            { id: "ad2", type: "ad", img: "https://www.mujeresparalasalud.org/nuevoamswp/wp-content/uploads/2026/02/Cartel-8m-2026-724x1024-1-600x849.jpeg", sponsor: "saludymujeres", text: "El Movimento Feminista de Madrid del que forma parte la AMS convoca a las mujeres y a toda la ciudadanía a manifestarse frente a la barbarie patriarcal de las guerras, genocidios y masacres contra la población. La época actual es una de las más violentas de las últimas décadas, que toma también la forma de regímenes de apartheid y discriminación contra mujeres y niñas. Esta realidad atraviesa a millones de mujeres desde el ámbito público a la esfera privada, porque la barbarie patriarcal está también en el interior de las casas.", likes: "8,320" },
+            { id: "p6", type: "post", img: "https://asambleadigital.es/wp-content/uploads/2024/06/Grupo-gentes-hambrientas.jpg", text: "Esto no es una guerra civil ordinaria... ¡ES UN GENOCIDIO! 🩸💔 Están asfixiando nuestras ciudades, bloqueando nuestros suministros y matando a nuestros niños de inanición solo para quebrar nuestra voluntad. Quieren una España de rodillas, muerta de hambre y miedo.", likes: "678k" },
+            { id: "p7", type: "post", img: "https://www.oldskull.net/wp-content/uploads/2019/07/PSOE.jpg", text: "¡Camaradas! No podemos cerrar los ojos ante el veneno que intenta infectar nuestra democracia. El falangismo no es política, ¡es el culto a la violencia y el odio! 🐍🚫", likes: "120k" },
+            { id: "p8", type: "post", img: "https://i.ibb.co/k2wK4sV7/wmremove-transformed-2.jpg", text: "¡España necesita una Economía Mixta! ⚖️", likes: "45k" }
         ];
 
         const gridContainer = document.getElementById('grid-container');
@@ -418,7 +418,7 @@
             
             const pfp = item.type === 'post' 
                 ? `https://upload.wikimedia.org/wikipedia/commons/d/d4/Indalecio_Prieto%2C_1936.jpg`
-                : `https://cdn-icons-png.flaticon.com/512/160/160869.png`;
+                : `https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Logotipo_del_PSOE.svg/1280px-Logotipo_del_PSOE.svg.png`;
 
             card.innerHTML = `
                 <div class="card-header">
